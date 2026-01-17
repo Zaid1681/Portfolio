@@ -6,11 +6,12 @@ import { portfolioData, type Skill } from "@/data/portfolio"; // <-- add type im
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { motion } from "framer-motion";
 import { skillIcons } from "@/app/skills/skillIcons";
+import { AchievementCard } from '@/components/ui/AchievementCard';
 
 import {
   Terminal,
 } from "lucide-react";
-const SkillCategory = React.memo(function SkillCategory({
+const AchievementCategory = React.memo(function AchievementCategory({
   title,
   skills,
 }: {
@@ -33,16 +34,16 @@ const SkillCategory = React.memo(function SkillCategory({
         {skills.map((skill, index) => (
   <span
   key={index}
-  className=" items-start gap-1 p-2 bg-slate-800 text-slate-300 text-sm rounded hover:bg-primary/20 hover:text-primary transition-colors cursor-default"
+  className="flex flex-col items-start gap-1 px-5 py-3 bg-slate-800 text-slate-300 text-sm rounded hover:bg-primary/20 hover:text-primary transition-colors cursor-default"
 >
   {/* Icon + Skill Name */}
-  <div className="flex items-center gap-2 ">
+  <div className="flex items-center gap-2 mb-2">
     {skillIcons[skill.name] && <span className="text-primary">{skillIcons[skill.name]}</span>}
     <span className="font-medium">{skill.name}</span>
   </div>
 
   {/* Proficiency below */}
-  {/* <span className="text-xs border rounded px-2 text-slate-200/35 italic">{skill.proficiency}</span> */}
+  <span className="text-xs border rounded px-2 text-slate-200/35 italic">{skill.proficiency}</span>
 </span>
 
 ))}
@@ -52,24 +53,19 @@ const SkillCategory = React.memo(function SkillCategory({
 });
 
 
-export const TechStack = React.memo(function TechStack() {
+export const AchievementSection = React.memo(function TechStack() {
   return (
     <div className="h-full">
       <SectionHeading
-        title="Technical Skills"
-        subtitle="Technologies I work with"
+        title="Courses & Certifications"
+        subtitle="My Technical Achievements and Certificates"
         center={false}
       />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <SkillCategory title="Languages" skills={portfolioData.skills.language} />
-        <SkillCategory title="Frontend (Framework & Libraries)" skills={portfolioData.skills.frontend} />
-        <SkillCategory title="Backend (Framework & Libraries)" skills={portfolioData.skills.backend} />
-        <SkillCategory title="Databases" skills={portfolioData.skills.database} />
-        <SkillCategory title="Cloud & DevOps" skills={portfolioData.skills.cloud} />
-        <SkillCategory title="Tools" skills={portfolioData.skills.tools} />
-
-      </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {portfolioData.achivements.map((achivement, index) => (
+                  <AchievementCard key={index} achivement={achivement} index={index} />
+                ))}
+        </div>
     </div>
   );
 });

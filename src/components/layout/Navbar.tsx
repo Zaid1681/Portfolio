@@ -1,112 +1,63 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { TbMenu2, TbX } from "react-icons/tb";
 import { portfolioData } from "@/data/portfolio";
+import { motion } from "framer-motion";
 
 const navLinks = [
-  { name: "About", href: "#about" },
-  { name: "Experience", href: "#experience" },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact", href: "#contact" },
+  { name: "About", href: "/" },
+  { name: "Experiences", href: "/experience" },
+  { name: "Skills", href: "/skills" },
+  { name: "Education", href: "/education" },
+  { name: "Projects", href: "/projects" },
+  { name: "Achievement", href: "/achievements" },
+  { name: "Contact", href: "/contact" },
+  // { name: "Courses", href: "/contact" },
+  // { name: "Courses", href: "/certification" },
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: "-50% 0px -50% 0px",
-      threshold: 0,
-    };
-
-    const observerCallback: IntersectionObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(
-      observerCallback,
-      observerOptions
-    );
-
-    navLinks.forEach((link) => {
-      const sectionId = link.href.substring(1);
-      const element = document.getElementById(sectionId);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
-  ) => {
-    e.preventDefault();
-    const targetId = href.replace("#", "");
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      // Prevent hash from appearing in URL
-      window.history.replaceState(null, "", window.location.pathname);
-    }
-    if (isMobileMenuOpen) {
-      setIsMobileMenuOpen(false);
-    }
-  };
 
   return (
     <header
       className={cn(
-        "fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent",
+        "fixed top-0 w-full z-50 transition-all duration-300 border-b",
         isScrolled
           ? "bg-slate-950/80 backdrop-blur-md border-white/5 shadow-sm"
-          : "bg-transparent"
+          : "bg-transparent border-transparent"
       )}
     >
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <Link
-          href="#about"
-          onClick={(e) => handleNavClick(e, "#about")}
+          href="/"
           className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
         >
-          Vipul<span className="text-white"> Jha</span>.
+          Zaid<span className="text-white"> Khan</span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-4">
           {navLinks.map((link) => {
-            const isActive = activeSection === link.href.substring(1);
+            const isActive = pathname === link.href;
             return (
               <Link
                 key={link.name}
                 href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
                 className={cn(
-                  "text-sm font-medium transition-colors relative",
+                  "text-sm font-medium relative transition-colors",
                   isActive
                     ? "text-primary"
                     : "text-slate-300 hover:text-primary"
@@ -114,31 +65,31 @@ export function Navbar() {
               >
                 {link.name}
                 {isActive && (
-                  <motion.div
-                    layoutId="activeSection"
+                  <motion.span
+                    layoutId="active-nav"
                     className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
               </Link>
             );
           })}
-          {portfolioData.blogUrl && (
+
+          {/* {portfolioData.blogUrl && (
             <a
               href={portfolioData.blogUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-medium text-slate-300 hover:text-primary transition-colors relative"
+              className="text-sm font-medium text-slate-300 hover:text-primary"
             >
               Blog
             </a>
-          )}
+          )} */}
         </nav>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Toggle */}
         <button
-          className="md:hidden text-slate-300 hover:text-white"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden text-slate-300"
+          onClick={() => setIsMobileMenuOpen((p) => !p)}
         >
           {isMobileMenuOpen ? <TbX size={24} /> : <TbMenu2 size={24} />}
         </button>
@@ -150,38 +101,27 @@ export function Navbar() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="md:hidden absolute top-full left-0 w-full bg-slate-950/95 backdrop-blur-lg border-b border-white/5"
+          className="md:hidden bg-slate-950/95 backdrop-blur-lg border-t border-white/5"
         >
           <nav className="flex flex-col p-6 gap-4">
             {navLinks.map((link) => {
-              const isActive = activeSection === link.href.substring(1);
+              const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.name}
                   href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    "text-lg font-medium transition-colors",
+                    "text-lg font-medium",
                     isActive
                       ? "text-primary"
                       : "text-slate-300 hover:text-primary"
                   )}
-                  onClick={(e) => handleNavClick(e, link.href)}
                 >
                   {link.name}
                 </Link>
               );
             })}
-            {portfolioData.blogUrl && (
-              <a
-                href={portfolioData.blogUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-lg font-medium text-slate-300 hover:text-primary transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Blog
-              </a>
-            )}
           </nav>
         </motion.div>
       )}

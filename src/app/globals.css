@@ -2,13 +2,14 @@
 
 :root {
   /* Deep rich dark tones - Slate 950 base */
-  --background: #020617;
+  /* --background: #020617; */
+  --background: #0B0E17;
   --foreground: #f8fafc;
 
   /* Modern Professional Palette - Teal & Sky */
-  --primary: #2dd4bf;
+  --primary: #A26BFF;
   /* Teal 400 */
-  --secondary: #0ea5e9;
+  --secondary: #932b8e;
   /* Sky 500 */
   --accent: #f43f5e;
   /* Rose 500 */
@@ -61,4 +62,17 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #475569;
+}
+
+@keyframes blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
 }

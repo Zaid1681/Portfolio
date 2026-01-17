@@ -9,6 +9,8 @@ import {
   TbMail,
 } from "react-icons/tb";
 
+import { SiLeetcode } from "react-icons/si";
+
 const iconMap: Record<
   string,
   React.ComponentType<{ size?: number; className?: string }>
@@ -20,6 +22,7 @@ const iconMap: Record<
   Instagram: TbBrandInstagram,
   Medium: TbBrandMedium,
   Mail: TbMail,
+  Leetcode: SiLeetcode,
 };
 
 interface SocialIconsProps {
