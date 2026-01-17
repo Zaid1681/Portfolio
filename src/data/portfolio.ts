@@ -58,11 +58,10 @@ export interface PortfolioData {
 
 export const portfolioData: PortfolioData = {
   name: "Zaid Khan",
-  role: "Backend Developer",
+  role: "Software Developer",
   about:
     "Passionate Software Developer with a passion for crafting elegant, scalable solutions. I thrive on turning complex problems into clean, efficient code. Constantly exploring new technologies, building projects, and learning the latest in software development.",
   profileImage: "/images/profile.webp",
-  blogUrl: "https://medium.com/@lordarcadius",
   social: [
     {
       platform: "GitHub",
