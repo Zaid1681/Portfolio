@@ -41,19 +41,6 @@ The application is optimized for performance, accessibility, and responsiveness 
 - Optimized asset loading
 - Easy content management via data files
 
----
-
-## Project Structure
-
-├── app/ # Next.js app router
-├── components/ # Reusable UI components
-├── data/ # Portfolio content (projects, socials, etc.)
-├── public/ # Static assets
-├── styles/ # Global styles
-├── next.config.js
-├── tailwind.config.js
-├── package.json
-└── README.md
 
 ---
 
